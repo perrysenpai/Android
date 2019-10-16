@@ -53,8 +53,24 @@ TextField/ Plain Text hint: to show what is to be entered. eg. enter your name. 
                   }
                             
                             
-                            
- Login Page Exercise:
+ Displaying Messages: Toast: 
+                  Toast.makeText( context: in which activity dows this message appear , "Hi There", length or time it would appear for);
+                  Toast.makeText(MainActivity.this, "Scooby doo", Toast.LENGTH_LONG).show();
+                  
+                  
+ Images:  put image in resources drawable folder.
+          image view in xml is used for image.
+          to define image in java , use ImageView image= (ImageView)findViewById(R.id.imageView);
+          to change the image when button is clicked.
+          
+     public void clickFunction(View view)
+    {
+        ImageView image= (ImageView)findViewById(R.id.imageView);
+
+        image.setImageResource(R.drawable.download);
+        Log.i("image : ", "changed");
+    }
+
 
                   
                   
