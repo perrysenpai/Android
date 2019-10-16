@@ -1,0 +1,62 @@
+When we choose Android view We can see Gradle and App.
+Gradle: Open source build tool that android studio uses to build app from the files in app folder.
+the app folder contains : manifests - has android manifests file . it contains basic things about app.
+                          res: we put icons, music to be used in the app.
+                               res has activity_main.xml in layoout folder which shows us the how the app looks like
+                          java:has mainactivity where main code in written.
+                          mainactivity has package name and imported classes :
+                          AppCompatActivity: compat is for compatibility ,this makes sure our app is backward compatible.
+                          Bundle: which will make us use android OS.1
+                          
+      
+160dp =1 inch.
+sp = scale independent pixel.  same as dp but also affected by user stting for text zoom level.
+dp= density independent pixels.
+
+General idea is to use dp for everything except for texts for which we use sp.
+TEXT View : width : width of the text view.
+                 margins
+                 style: how text looks inside the text view.
+                 alpha: make the text view transparent.
+                 background: background for our text.
+                 fontfamily: to choose a font.
+                 Gravity: alignment within the element. like we could gravitate the text 
+                          to right or left.
+                 padding : similar to margin but it is within the element.
+                 textcolor.
+                 
+Button: onClick: what happends when button is clicked.
+                  e.g we can enter clickFunction in the onClick field and then define the function in out 
+                  java file.
+                  Now in our java file. MainActiity.java we have MainActivity class which
+                  is extending the AppCompatctivity class, onCreate it would load the savedInstanceState
+                  if there is any on users phone.
+                  SetContentView(R.layout.actity_main) sets the contenet veiw. R is for res , layout is for layout fodlder
+                  it linked the maiin activity  with our ui.
+                  
+                  Button is a view and we are using clickFunnction by clicking on a view i,e button.
+                  public void clickFunciton(View view)
+                  {
+                    Log.i("Info: ", " Button Pressed" );
+                  }
+                  lets say we want htis button to display some log information to us.
+                  
+TextField/ Plain Text hint: to show what is to be entered. eg. enter your name. lets say id for this is textID.
+                            EditText myTextField= findViewById(textID);
+                            but we dont want view by id we want EditText so we cast it.
+                            EditText myTextField= (EditText)findViewById(textID);
+                            and we wan to print this in the logs. so 
+                  public void clickFunciton(View view)
+                  {
+                    EditText mytext=(EditText) findViewById(textID);
+                    Log.i(" Info: "," mytext.getText().toString());
+                  }
+                            
+                            
+                            
+ Login Page Exercise:
+
+                  
+                  
+
+                          
