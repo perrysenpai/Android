@@ -1,0 +1,5 @@
+To fade an image make a function for onclick say fade:
+
+ImageView img=(ImageView9 findViewById(imageview);
+img.animate().alpha(0f).setduration(2000);
+alpha is the level of fadeness . Remember alpha always take float parameter. setudrtion is the duration that it will take to fade in millisec.
