@@ -1,0 +1,76 @@
+To fade an image make a function for onclick say fade:
+
+ImageView img=(ImageView9 findViewById(imageview);
+img.animate().alpha(0f).setduration(2000);
+alpha is the level of fadeness . Remember alpha always take float parameter. setudrtion is the duration that it will take to fade in millisec.
+
+Crossfading : fading in one image and fading out another
+
+in xml set the alpha of one image to 0.
+public void fade(View view)
+    {
+        ImageView img=(ImageView)findViewById(R.id.imageView4);
+        ImageView img2=(ImageView)findViewById(R.id.imageView3);
+        img.animate().alpha(1f).setDuration(3000);
+        img.animate().alpha(0f).setDuration(3000);
+
+    }
+    
+Program to move image to bottom and left.
+public void move(View view)
+    {
+        ImageView img=(ImageView)findViewById(R.id.imageView4);
+        img.animate().translationYBy(5000f).setDuration(3000);
+
+    }
+
+    public void move(View view)
+    {
+        ImageView img=(ImageView)findViewById(R.id.imageView3);
+        img.animate().translationXBy(-2000f).setDuration(3000);
+    }
+    
+    
+if we want image to come to screen when we open the app, then we can use settranslationX which moves the  image but instantly and then bring it 
+in by using animate().translationXBy(2000f) method. we use these inside oncreate so that it is one once app is created.
+        ImageView img=(ImageView)findViewById(R.id.imageView4);
+        img.setTranslationX(-2000);
+        img.animate().translationXBy(2000f).setDuration(3000);
+        
+        
+Rotating an image clockwise:
+public void fade(View view)
+    {
+        ImageView img=(ImageView)findViewById(R.id.imageView4);
+        img.animate().rotation(1800f).setDuration(3000);
+
+    }
+    180f rotates the image upside down.
+    
+    
+Cool Animation:  
+protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ImageView img=(ImageView)findViewById(R.id.imageView);
+        img.setTranslationY(-2000f);
+        img.setTranslationX(-2000f);
+    }
+    // due to this above method the image is out of the screen
+
+    public void trans(View view)
+    {
+
+        ImageView img=(ImageView)findViewById(R.id.imageView);
+        img.animate().translationXBy(2000f).translationYBy(2000f);
+        img.animate().rotation(3600f).setDuration(2000);
+        img.animate().scaleX(0.5f).scaleY(0.5f).setDuration(2000);
+        
+    }
+    
+    due to this the img will come to the screen rotating 10 times and would become half size all in 2 seconds.
+    animations can be clubbed as 
+    img.animate().translationXBy(2000f).translationYBy(2000f).rotation(3600f).scaleX(0.5f).scaleY(0.5f).setDuration(2000);
+    
+    
