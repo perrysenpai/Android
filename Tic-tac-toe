@@ -1,0 +1,24 @@
+The layout used is primarily gridlayout of 3x3.
+each of the 9 grid components contain an image view which can be either cross or zero.
+We make a player indicator number variable to see which player has a turn.
+we also have a 2d array with possible cases of win.
+and an array "visited" with current state of the grid components i.e array of size 9, all filed with -1 which indicates it hasnt been visited.
+we change it to 0 for zero and 1 for cross.
+Tag value is associated with each of the grid components i.d there are 9 values 0-8. we can use these to associate our "visited" array.
+we use a couont to check the number of times the players has took turn . if it is 8 then it means it is a draw.
+if player 1 has turn then we set image source as cross else zero.
+rest we can add trasntitions for movement of the images like rotation.
+We chech after each time image is clicked if the winnign condition is fufilled or not.
+
+
+We also use a Linear layout which has two components i.e a button to start over again . 
+after pressing this we reset all the parameters, like the "visited" array , the count variable and everytghing. we also need to make sure that the 
+images of cross and zeero are removed. for that we use.
+GridLayout grd=(GridLayout)findViewById(R.id.gridLayout);
+        for(int i=0;i<grd.getChildCount();i++) {
+            ((ImageView)grd.getChildAt(i)).setImageResource(0);
+        }
+also this linear layout is meant to fade away after being clicked so that it is not visible. we can also move it to out of screnn using trasnkationx.
+or trasnlationy.
+but we need to bring it in after each game is won.
+
