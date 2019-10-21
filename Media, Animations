@@ -73,4 +73,13 @@ protected void onCreate(Bundle savedInstanceState) {
     animations can be clubbed as 
     img.animate().translationXBy(2000f).translationYBy(2000f).rotation(3600f).scaleX(0.5f).scaleY(0.5f).setDuration(2000);
     
-    
+Adding Video:   VideoView view=(VideoView)findViewById(R.id.videoView);
+                view.setVideoPath("android.resource://"+ getPackageName() + "/"+ R.raw.demovideo);
+                view.start();
+                
+                
+                MediaController mc=new MediaController(this);
+                mc.setAnchorView(view);
+
+                view.setMediaController(mc);
+                view.start();
