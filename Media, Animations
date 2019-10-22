@@ -83,3 +83,94 @@ Adding Video:   VideoView view=(VideoView)findViewById(R.id.videoView);
 
                 view.setMediaController(mc);
                 view.start();
+
+Adding Audio: MediaPlayer mp;
+    Inside oncreate method
+    {
+        mp=MediaPlayer.create(this, R.raw.abc);
+    }
+    public void playVideo(View view)
+    {
+        mp.start();
+    }
+    public void pauseVideo(View view)
+    {
+        mp.pause();
+    }
+    
+    
+    SeekBar: use seekbar widget to add seekbar in xml. Lets see how to adjust volume using seekbar.
+    We need to get info about the audio in the device for that we use AudioManager.
+    
+    
+   for seekbar we will firstly need some audio of which we want to listen and adjust volume.
+   this can be done with the help of MediaPlayer.
+   1. then we will define the seekbar with the help of its id.
+   now we add a onseeklistenr that tells what it would do.
+   inside the function it will set th volume to that of the seekbar . but we need to set the maximun level of valume .
+   
+   
+   The code is below.
+   
+   
+   
+   
+   public class MainActivity extends AppCompatActivity {
+    MediaPlayer mp;     // for audio
+    AudioManager am;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mp = MediaPlayer.create(this, R.raw.abc);
+        am=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
+        int maxVol=am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int currVol=am.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        SeekBar volcontrol=(SeekBar)findViewById(R.id.seekBar);
+        volcontrol.setMax(maxVol);
+        volcontrol.setProgress(currVol);
+        volcontrol.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.i("the vol is ", String.valueOf(progress));
+
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    public void playVideo(View view)
+    {
+        mp.start();
+    }
+
+    public void pauseVideo(View view)
+    {
+        mp.pause();
+    }
+
+    public void stopVideo(View view)
+    {
+        mp.stop();
+    }
+
+}
+
+               
+               
+               
