@@ -1,43 +1,55 @@
-package com.example.audioplayer;
+package com.example.timestable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.hardware.SensorEventListener;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    MediaPlayer mediaPlayer;
-    AudioManager audioManager;
+    ListView listView;
 
+    public void showTables(int x)
+    {
+        ArrayList<Integer> list=new ArrayList<>();
+        for(int i=1; i<=20; i++)
+        {
+            list.add(i*x);
+        }
+
+        ArrayAdapter<Integer> adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.xyz);
-        audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        int maxVol=audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        int curVol=audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        listView=(ListView)findViewById(R.id.listView);
 
-        SeekBar volumecontrol=(SeekBar)findViewById(R.id.seekBar);
-        volumecontrol.setMax(maxVol);
-        volumecontrol.setProgress((curVol));
-
-        volumecontrol.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        SeekBar table=(SeekBar)findViewById(R.id.seekBar);
+        table.setMax(20);
+        table.setProgress(1);
+        table.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.i("Volume is ", String.valueOf(progress));
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+                int min=1;
+                int value;
+
+                if(progress<1)
+                    value=1;
+                else
+                    value=progress;
+
+                showTables(value);
             }
 
             @Override
@@ -52,50 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        final SeekBar scrubber=(SeekBar)findViewById(R.id.seekBar2);
-        scrubber.setMax(mediaPlayer.getDuration());
-
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                scrubber.setProgress(mediaPlayer.getCurrentPosition());
-            }
-        },0,2000);
-
-        scrubber.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mediaPlayer.seekTo(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.start();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.pause();
-            }
-        });
-
-
+        showTables(1);
 
     }
-
-    public void play(View view)
-    {
-        mediaPlayer.start();
-    }
-
-    public void pause(View view)
-    {
-        mediaPlayer.pause();
-    }
-
-    public void stop(View view)
-    {
-        mediaPlayer.stop();
-    }
-
 }
