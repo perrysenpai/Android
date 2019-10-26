@@ -1,55 +1,52 @@
-package com.example.timestable;
+package com.example.eggtimers;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
-    ListView listView;
+    Button button;
+    SeekBar seekBar;
+    TextView textView;
+    Boolean counterIsActive=false;
+    CountDownTimer countDownTimer;
+    ImageView imageView;
 
-    public void showTables(int x)
-    {
-        ArrayList<Integer> list=new ArrayList<>();
-        for(int i=1; i<=20; i++)
-        {
-            list.add(i*x);
-        }
-
-        ArrayAdapter<Integer> adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(adapter);
-
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        button=(Button)findViewById(R.id.button);
+        imageView=(ImageView)findViewById(R.id.imageView);
+        textView=(TextView)findViewById(R.id.textView);
+        textView.setText("00:30");
+        seekBar=(SeekBar)findViewById(R.id.seekBar);
+        seekBar.setMax(600);
+        seekBar.setProgress(30);
 
-        listView=(ListView)findViewById(R.id.listView);
-
-        SeekBar table=(SeekBar)findViewById(R.id.seekBar);
-        table.setMax(20);
-        table.setProgress(1);
-        table.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int min=1;
-                int value;
+                int min=progress/60;
+                int sec=progress-(min*60);
+                String clockminutes=String.valueOf(min).length()==1?"0"+String.valueOf(min):String.valueOf(min);
+                String clockseconds=String.valueOf(sec).length()==1?"0"+String.valueOf(sec): String.valueOf(sec);
 
-                if(progress<1)
-                    value=1;
-                else
-                    value=progress;
-
-                showTables(value);
+                textView.setText(clockminutes+":"+clockseconds);
             }
 
             @Override
@@ -63,8 +60,60 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
-        showTables(1);
+    public void startTimer(View view)
+    {
+        if(counterIsActive==false) {
+            counterIsActive = true;
+            seekBar.setEnabled(false);
+            button.setText("Stop");
+            countDownTimer=new CountDownTimer(seekBar.getProgress() * 1000 + 100, 1000)   // extra 100 is added to make timer work correctly due to delay .
+            {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    updateTimer((int) millisUntilFinished / 1000);
+                }
+
+                @Override
+                public void onFinish() {
+
+                    resetTimer();
+                    MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
+                    Toast.makeText(MainActivity.this, "Eggs Done !", Toast.LENGTH_LONG).show();
+                    mediaPlayer.start();
+
+                    imageView.animate().rotation(360f).setDuration(2000);
+
+
+                }
+            }.start();
+        }
+        else
+        {
+            resetTimer();
+        }
+    }
+
+    public void resetTimer()
+    {
+        textView.setText("00:30");
+        seekBar.setProgress(30);
+        countDownTimer.cancel();
+        button.setText("Start");
+        seekBar.setEnabled(true);
+        counterIsActive=false;
+
+    }
+    public void updateTimer(int secondsLeft)
+    {
+        int min=secondsLeft/60;
+        int sec=secondsLeft-(min*60);
+        String clockminutes=String.valueOf(min).length()==1?"0"+String.valueOf(min):String.valueOf(min);
+        String clockseconds=String.valueOf(sec).length()==1?"0"+String.valueOf(sec): String.valueOf(sec);
+
+        textView.setText(clockminutes+":"+clockseconds);
 
     }
 }
