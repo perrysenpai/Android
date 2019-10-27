@@ -25,3 +25,7 @@ List View:  like scrolling through contacts
         
         To set listener for a particular list content row.
         
+        
+  Hide and Show Elements:
+  setVisibility(view.VISIBLE);
+        
