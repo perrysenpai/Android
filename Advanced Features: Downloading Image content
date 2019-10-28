@@ -1,0 +1,59 @@
+public class MainActivity extends AppCompatActivity {
+
+    ImageView  imager;
+    public class DownloadTask extends AsyncTask<String, Void, Bitmap>
+    {
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            Bitmap image=null;
+            URL url;
+            HttpURLConnection httpURLConnection=null;
+
+            try {
+                url=new URL(urls[0]);
+                httpURLConnection=(HttpURLConnection)url.openConnection();
+                httpURLConnection.connect();
+
+                InputStream inputStream=httpURLConnection.getInputStream();
+                Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
+                return bitmap;
+
+            }
+            catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        imager =(ImageView)findViewById(R.id.imageView);
+
+
+
+    }
+
+    public void downloadImage(View view)
+    {
+        DownloadTask downloadTask=new DownloadTask();
+        Bitmap image;
+        try {
+            image=downloadTask.execute("https://vignette.wikia.nocookie.net/characters/images/7/7f/Tom_Cat.jpg/revision/latest?cb=20190404160415").get();
+            imager.setImageBitmap(image);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+}
